@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import os
 import cv2
+#import CONFIG
 
 INPUT_DIR = './baxter_babbling/'
 OUTPUT_DIR = './baxter_babbling_converted/'
@@ -118,7 +119,6 @@ for folder in data_iteration_folders:
     i +=1
 
 # CREATING ACTUAL FILES WITHIN THE DIRECTORIES
-record_id = 0
 print "CREATING ACTUAL FILES WITHIN THE DIRECTORIES: ",len(data_iteration_folders)
 for record_id in range(len(data_iteration_folders)):
     real_file_to_simulated_file(record_id)
