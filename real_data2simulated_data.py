@@ -6,7 +6,8 @@ import numpy as np
 import os
 import cv2
 from config import INPUT_DIR, OUTPUT_DIR, REWARD_FILE, INPUT_REWARD_FILE
-from config import INPUT_JOINT_POSITION_FILE, SUBFOLDER_CONTAINING_IMAGES
+from config import INPUT_JOINT_POSITION_FILE, SUBFOLDER_CONTAINING_IMAGES, EFFECTOR_CLOSE_ENOUGH_THRESHOLD
+from config import INPUT_DATA_FILE, INPUT_DATA_FILE_TARGET
 
 """
 This program uses baxter joint positions in cartesian space and translates
@@ -38,7 +39,7 @@ def read_yaml(filename):
         except yaml.YAMLError as exc:
             print(exc)
 
-def real_file_to_simulated_file(record_id, input_f=INPUT_JOINT_POSITION_FILE, input_f_reward=INPUT_REWARD_FILE, output_f='recorded_robot_limb_left_endpoint_action.txt', output_f_reward=REWARD_FILE):
+def real_file_to_simulated_file(record_id, input_f=INPUT_DATA_FILE, input_effector= EFFECTOR_CLOSE_ENOUGH_THRESHOLD, input_f_reward=INPUT_REWARD_FILE, output_f='recorded_robot_limb_left_endpoint_action.txt', output_f_reward=REWARD_FILE):
     """
     Adds secs to nanosecs for a unique timestamp, creates label =1 if an object being pushed is moving,
     and 0 otherwise (including if an object being pushed is not moving)
@@ -47,6 +48,10 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_JOINT_POSITION_FILE, in
     recorded_button1_is_pressed.txt  #time, value
     """
     content = read_yaml(input_f)
+    content_effector = read_yaml(INPUT_DATA_FILE_TARGET)
+    object_was_pushed_reward = content_effector['reward']
+    print 'object_was_pushed? reward in INPUT_DATA_FILE_TARGET', object_was_pushed_reward
+
     # add new format to new_content
     # time, dx, dy, dz      recorded_robot_limb_left_endpoint_action.txt
     df = pd.DataFrame(columns=('#time', 'x', 'y', 'z'))
@@ -68,7 +73,11 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_JOINT_POSITION_FILE, in
             dx, dy, dz = x-prev_x, y-prev_y, z-prev_z
         df.loc[frame_id] = [new_time, x, y, z]
         df_deltas.loc[frame_id] = [new_time, dx, dy, dz] # dtime if needed
-        df_reward.loc[frame_id] = [new_time, content[key]['reward']]
+        if object_was_pushed_reward == 1 and content[key]['reward'] > EFFECTOR_CLOSE_ENOUGH_THRESHOLD:
+            # reward 1   # we can play without loosing info on the proximity precision
+            df_reward.loc[frame_id] = [new_time, 1]
+        else: # reward 0
+            df_reward.loc[frame_id] = [new_time, 0]
         prev_x, prev_y, prev_z = dx,dy,dz
         prev_time = new_time
         timestamps.append(new_time)
@@ -82,9 +91,22 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_JOINT_POSITION_FILE, in
     output_f_deltas = output_f.replace('.txt', '_deltas.txt')
     df_deltas.to_csv(output_path +output_f_deltas, header=True, index=False, sep='\t')
     df_reward.to_csv(output_path +output_f_reward, header=True, index=False, sep='\t')
+    # TODO: consistency sanity check on the nr of timestamps, frames and rewards (len(df) and len(df_deltas)), should all be equal
 
 def read_binary_image(string_buffer, record_id, frame_id):
     img_in_binary2rgb_file(string_buffer, record_id, frame_id, OUTPUT_DIR)
+
+def effector_is_close_enough():
+    """
+    returns true if the robot effector (wrist joint) is close enough (reward value in target_info.yml)
+    according to EFFECTOR_CLOSE_ENOUGH_THRESHOLD value
+    """
+    if distance < EFFECTOR_CLOSE_ENOUGH_THRESHOLD:
+        return True
+    else:
+        return False
+
+
 
 ################
 
