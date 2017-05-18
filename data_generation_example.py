@@ -1,17 +1,11 @@
-
 # coding: utf-8
-
 import yaml
 import yaml
 import pandas as pd
 import numpy as np
 import os
 import cv2
-#from cv2 import cv
-
-INPUT_DIR = './baxter_babbling/'
-OUTPUT_DIR = './baxter_babbling_converted/'
-SUBFOLDER_CONTAINING_IMAGES = 'recorded_cameras_head_camera_2_image_compressed/' # in our old data, TODO: change to better name?
+from config import INPUT_DIR, OUTPUT_DIR, SUBFOLDER_CONTAINING_IMAGES
 
 """
 This program uses baxter joint positions in cartesian space and translates

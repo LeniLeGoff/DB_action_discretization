@@ -6,18 +6,23 @@ import pandas as pd
 import numpy as np
 import os
 import cv2
-#import CONFIG
+from config import INPUT_DIR, OUTPUT_DIR, REWARD_FILE, INPUT_REWARD_FILE
+from config import INPUT_JOINT_POSITION_FILE, SUBFOLDER_CONTAINING_IMAGES
 
 
-####
+####    NOT WORKING #### NOT NEEDED WHEN CONTINUOUS PRIORS ARE APPLIED  TODO: add
+# util methods to const.py
 
 def discretize_data(record_id):
+    # TODO
     print "Discretizing record ",record_id
 
 def subsample_data(record_id, factor):
+    # TODO
     print "Subsampling data ",record_id
 
 def kmeans_clustering_data(data_x, data_y):
+    # TODO
     clustered_df = pd.DataFrame(columns=['time', 'x', 'y', 'z', 'reward'])
     print "Dataframe clusterized: ",clustered_df.head()
     clusterized_df.to_csv()
