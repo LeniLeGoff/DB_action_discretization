@@ -1,22 +1,22 @@
 # coding: utf-8
 
-INPUT_DIR = './baxter_babbling/'
-OUTPUT_DIR = './baxter_babbling_converted/'
+INPUT_DIR = './babbling/'
+OUTPUT_DIR = './babbling_converted/'
 
-### TODO: remove the next 3 files when unified new format
-REWARD_FILE = 'recorded_button1_is_pressed.txt' #"movable_object_is_pushed.txt" is equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations
-INPUT_REWARD_FILE = 'dataset_color.yml'
+INPUT_REWARD_FILE = 'dataset_color.yml' #'recorded_button1_is_pressed.txt' #"movable_object_is_pushed.txt" is equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations
 INPUT_JOINT_POSITION_FILE = 'controller_feedback.yml'
 
 ### NEW DATA FORMATS:
-INPUT_DATA_FILE = 'sync_data.yml'
-INPUT_DATA_FILE_TARGET = 'target_info.yml'
+INPUT_DATA_FILE = 'sync_dataset.yml'  # the effector (robot wrist joint) data
+INPUT_DATA_FILE_TARGET = 'target_info.yml'  # the target object being moved
+SUBFOLDER_CONTAINING_RECORDS_PATTERN_INPUT = 'iteration_X/'
 
 # To be generated within each record_X file
-SUBFOLDER_CONTAINING_IMAGES = 'recorded_cameras_head_camera_2_image_compressed/' # in our old data, TODO: change to better name?
-EFFECTOR_CLOSE_ENOUGH_THRESHOLD = 0.5
-
-
+SUBFOLDER_CONTAINING_RECORDS_PATTERN_OUTPUT= 'record_X/'
+EFFECTOR_CLOSE_ENOUGH_THRESHOLD = 0.2
+OUTPUT_FILE = "action_pushing_object.txt" #''  FILENAME_FOR_ACTION =  -- equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations  # FILENAME_FOR_STATE
+OUTPUT_FILE_REWARD = "reward_pushing_object.txt" #"state_pushing_object.txt" #FILENAME_FOR_REWARD
+SUB_DIR_IMAGE = 'baxter_pushing_objects/'
 """
 
 We agreed on a standard data format in YAML for the data produced by the wave 1-2-3
