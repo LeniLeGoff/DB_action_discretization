@@ -18,18 +18,23 @@ Because each image in the recorded data produces many frame_ID values with joint
 we keep only one set of joint values
 The output files of the program look as follows:
 
+FILENAME_FOR_ACTION
          #time         x         y         z
 0  289000578.0  0.816698  0.249241 -0.179920
 1  487000576.0  0.757203  0.480915  0.400777
 2  110000581.0  0.816698  0.249241 -0.179920
 3  206000574.0  0.695541  0.432679  0.428267
 4  787000579.0  0.816698  0.249241 -0.179920
+
+FILENAME_FOR_ACTION_DELTAS
          #time        dx        dy        dz
 0  289000578.0  0.816698  0.249241 -0.179920
 1  487000576.0 -0.059495  0.231674  0.580697
 2  110000581.0  0.876193  0.017567 -0.760617
 3  206000574.0 -0.180652  0.415112  1.188885
 4  787000579.0  0.997350 -0.165870 -1.368805
+
+REWARD_FILE
          #time  value
 0  289000578.0    0.0
 1  487000576.0    0.0
@@ -128,7 +133,7 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_DATA_FILE, input_f_targ
         img_in_binary2rgb_file(str_buffer, record_id, frame_id)
         frame_id += 1
 
-    print "Writing to files: \n",df.head(),'\n',df_deltas.head(),'\n',df_reward.head()
+    #print "Writing to files: \n",df.head(),'\n',df_deltas.head(),'\n',df_reward.head()
     output_path = OUTPUT_DIR+ SUBFOLDER_CONTAINING_RECORDS_PATTERN_OUTPUT.replace('X', str(record_id))
     df.to_csv(output_path +output_f, header=True, index=False, sep='\t')
     output_f_deltas = output_f.replace('.txt', '_deltas.txt')

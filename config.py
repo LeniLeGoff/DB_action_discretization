@@ -14,11 +14,11 @@ SUBFOLDER_CONTAINING_RECORDS_PATTERN_INPUT = 'iteration_X/'
 # To be generated within each record_X file
 SUBFOLDER_CONTAINING_RECORDS_PATTERN_OUTPUT= 'record_X/'
 EFFECTOR_CLOSE_ENOUGH_THRESHOLD = 0.2
-OUTPUT_FILE = "action_pushing_object.txt" #''  FILENAME_FOR_ACTION =  -- equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations  # FILENAME_FOR_STATE
+OUTPUT_FILE = "state_pushing_object.txt" #''  FILENAME_FOR_STATE =  -- equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations  # FILENAME_FOR_STATE
 OUTPUT_FILE_REWARD = "reward_pushing_object.txt" #"state_pushing_object.txt" #FILENAME_FOR_REWARD
 SUB_DIR_IMAGE = 'baxter_pushing_objects/'
-"""
 
+"""
 We agreed on a standard data format in YAML for the data produced by the wave 1-2-3
 
 Two files:
