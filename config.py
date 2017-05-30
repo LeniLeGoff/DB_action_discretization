@@ -3,9 +3,8 @@
 INPUT_DIR = './babbling/'
 OUTPUT_DIR = './babbling_converted/'
 
-# INPUT_REWARD_FILE = 'dataset_color.yml' #'recorded_button1_is_pressed.txt' #"movable_object_is_pushed.txt" is equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations
+# INPUT_REWARD_FILE = 'dataset_color.yml' # #"movable_object_is_pushed " is equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations
 # INPUT_JOINT_POSITION_FILE = 'controller_feedback.yml'
-
 INPUT_DATA_FILE = 'sync_dataset.yml'  # the effector (robot wrist joint) data
 INPUT_DATA_FILE_TARGET = 'target_info.yml'  # the target object being moved
 SUBFOLDER_CONTAINING_RECORDS_PATTERN_INPUT = 'iteration_X/'
