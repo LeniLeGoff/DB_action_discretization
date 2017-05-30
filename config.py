@@ -3,10 +3,9 @@
 INPUT_DIR = './babbling/'
 OUTPUT_DIR = './babbling_converted/'
 
-INPUT_REWARD_FILE = 'dataset_color.yml' #'recorded_button1_is_pressed.txt' #"movable_object_is_pushed.txt" is equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations
-INPUT_JOINT_POSITION_FILE = 'controller_feedback.yml'
+# INPUT_REWARD_FILE = 'dataset_color.yml' #'recorded_button1_is_pressed.txt' #"movable_object_is_pushed.txt" is equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations
+# INPUT_JOINT_POSITION_FILE = 'controller_feedback.yml'
 
-### NEW DATA FORMATS:
 INPUT_DATA_FILE = 'sync_dataset.yml'  # the effector (robot wrist joint) data
 INPUT_DATA_FILE_TARGET = 'target_info.yml'  # the target object being moved
 SUBFOLDER_CONTAINING_RECORDS_PATTERN_INPUT = 'iteration_X/'
@@ -17,12 +16,13 @@ EFFECTOR_CLOSE_ENOUGH_THRESHOLD = 0.2
 OUTPUT_FILE = "state_pushing_object.txt" #''  FILENAME_FOR_STATE =  -- equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations  # FILENAME_FOR_STATE
 OUTPUT_FILE_REWARD = "reward_pushing_object.txt" #"state_pushing_object.txt" #FILENAME_FOR_REWARD
 SUB_DIR_IMAGE = 'baxter_pushing_objects/'
+FRAME_START_INDEX = 1  # we start from 1 so that later LUA sorting keeps the order preserved
 
 """
 We agreed on a standard data format in YAML for the data produced by the wave 1-2-3
 
 Two files:
-First one : this file is an information about the whole iteration
+First one: this file is an information about the whole iteration
 target_info.yml
 reward:(1|0) // if the target was a moveable object
 target_position:
@@ -30,8 +30,8 @@ target_position:
    - y
    - z
 
-second one: information frame per frame in a iteration.
-sync_data.yml
+second one: information per frame in a iteration, concerning the robot's effector (wrist joint orientation and position in our case)
+sync_dataset.yml
 frame_ID:
     timestamp:
         sec: float
@@ -45,7 +45,7 @@ frame_ID:
         - y
         - z
         - w
-    reward: (0|1) // if the endeffector is close from the target
+    reward: (0|1) // if the end effector is close from the target
     depth: !!binary " .. "
     rgb: !!binary  " .. "
 
