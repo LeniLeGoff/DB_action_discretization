@@ -59,7 +59,7 @@ frame_875000688:
      nsec: 875000000
 
      
-Note: the frames are not written in sequential order, and therefore, this program sorts them by using the timestamp = sec.nsec). Moreover, the ID = nsec + sec.
+Note: the frames are not written in sequential order, and therefore, this program sorts them by using the timestamp = (sec * 10^9)+ nsec). This real timestamp in nanosecs is used in the output images as ID (note that in the original input yml files, the frame_ID, for reducing size while storing, is ID = nsec + sec, -which does not correspond to the real time)
 
 This is a PAR data. You have for each time step the position and orientation of the robots end-effector, a corresponding image (color and depth) and a reward.
 
