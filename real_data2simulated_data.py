@@ -98,7 +98,7 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_DATA_FILE, input_f_targ
     content = read_yaml(INPUT_DIR+SUBFOLDER_CONTAINING_RECORDS_PATTERN_INPUT.replace('X', str(record_id))+input_f)  # sync_dataset.yml for babbling
     content_effector = read_yaml(INPUT_DIR+SUBFOLDER_CONTAINING_RECORDS_PATTERN_INPUT.replace('X', str(record_id))+input_f_target)  # target_info.yml for babbling
     object_was_pushed_reward = content_effector['reward']
-    print 'object_was_pushed in data iteration? reward in INPUT_DATA_FILE_TARGET', object_was_pushed_reward
+    #print 'object_was_pushed in data iteration? reward in INPUT_DATA_FILE_TARGET (important to be able to apply Causality prior or not) = ', object_was_pushed_reward
 
     # add new format to new_content
     # time, dx, dy, dz      recorded_robot_limb_left_endpoint_action.txt
@@ -132,7 +132,8 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_DATA_FILE, input_f_targ
         prev_time = new_time
         timestamps.append(new_time)
         str_buffer = content[key]['rgb']
-        img_in_binary2rgb_file(str_buffer, record_id, frame_id)
+        # The id of the frame is its timestamp in nanosecs, because they are not ordered in the yml file
+        img_in_binary2rgb_file(str_buffer, record_id, str(int(new_time))) #frame_id) 
         frame_id += 1
 
     output_path = OUTPUT_DIR+ SUBFOLDER_CONTAINING_RECORDS_PATTERN_OUTPUT.replace('X', str(record_id))
