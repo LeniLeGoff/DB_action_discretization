@@ -25,7 +25,7 @@ target_position:  (the position of the object being interacted with)
 
 sync_data.yml
 
-frame_ID:
+frame_ID:  the ID is always: ID = nsec + sec, See example(*)
 
     timestamp:
 
@@ -50,6 +50,16 @@ frame_ID:
 
     rgb: !!binary  " .. "
 
+
+
+(*) e.g.: ID is computed as sec + nsec => 875000688 = 875000000 + 688
+frame_875000688:
+   timestamp:
+     sec: 688
+     nsec: 875000000
+
+     
+Note: the frames are not written in sequential order, and therefore, this program sorts them by using the timestamp = sec.nsec). Moreover, the ID = nsec + sec.
 
 This is a PAR data. You have for each time step the position and orientation of the robots end-effector, a corresponding image (color and depth) and a reward.
 
@@ -126,8 +136,6 @@ To install the baxter sdk follow this tutoriel : http://sdk.rethinkrobotics.com/
 C++11 flag:
 
 
-
-
 if(COMPILER_SUPPORTS_CXX11)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 elseif(COMPILER_SUPPORTS_CXX0X)
@@ -135,3 +143,5 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
+
+

@@ -75,7 +75,7 @@ def real_file_to_simulated_file(record_id, input_f='controller_feedback.yml', in
         df_reward.loc[frame_id] = [new_time, 1] # TODO: [new_time, content[key]['reward']]
         prev_x, prev_y, prev_z = dx,dy,dz
         prev_time = new_time           #timestamps.append(new_time)
-        #TODO: real img
+        #TODO: with non hardcoded path to real img
         str_buffer = get_sample_img_in_binary() #str_buffer = content[key]['rgb']
         read_binary_image(str_buffer, record_id, frame_id)
         frame_id += 1

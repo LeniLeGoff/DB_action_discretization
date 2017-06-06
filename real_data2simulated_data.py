@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import os
 import cv2
+import math
+
 from config import INPUT_DIR, OUTPUT_DIR, INPUT_DATA_FILE, INPUT_DATA_FILE_TARGET, SUBFOLDER_CONTAINING_RECORDS_PATTERN_INPUT
 from config import SUBFOLDER_CONTAINING_RECORDS_PATTERN_OUTPUT, EFFECTOR_CLOSE_ENOUGH_THRESHOLD, OUTPUT_FILE
 from config import OUTPUT_FILE_REWARD, SUB_DIR_IMAGE, FRAME_START_INDEX
@@ -109,7 +111,7 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_DATA_FILE, input_f_targ
     prev_x, prev_y, prev_z = 0,0,0
     for key in content.keys():         # for each image per action:
         x,y,z = content[key]['position']  #print x,y,z  # also ['orientation'] available
-        new_time = content[key]['timestamp']['sec'] + content[key]['timestamp']['nsec']
+        new_time = content[key]['timestamp']['sec'] * math.pow(10, 9) + content[key]['timestamp']['nsec']
         if frame_id == FRAME_START_INDEX: # first frame per iteration or data sequence
             dx, dy, dz = x, y, z
             prev_x, prev_y, prev_z = x, y, z
@@ -133,8 +135,13 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_DATA_FILE, input_f_targ
         img_in_binary2rgb_file(str_buffer, record_id, frame_id)
         frame_id += 1
 
-    #print "Writing to files: \n",df.head(),'\n',df_deltas.head(),'\n',df_reward.head()
     output_path = OUTPUT_DIR+ SUBFOLDER_CONTAINING_RECORDS_PATTERN_OUTPUT.replace('X', str(record_id))
+    
+    # Sorting frames, as they are not written in the original yml files in timely consecutive real order
+    df.sort_values(by='#time', inplace=True )
+    df_deltas.sort_values(by='#time', inplace=True )
+    df_reward.sort_values(by='#time', inplace=True )
+
     df.to_csv(output_path +output_f, header=True, index=False, sep='\t')
     output_f_deltas = output_f.replace('.txt', '_deltas.txt')
     df_deltas.to_csv(output_path +output_f_deltas, header=True, index=False, sep='\t')
@@ -158,7 +165,6 @@ def real_file_to_simulated_file(record_id, input_f=INPUT_DATA_FILE, input_f_targ
 
 ####   MAIN program
 ################
-
 
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
