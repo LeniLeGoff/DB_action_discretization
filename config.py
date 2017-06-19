@@ -1,7 +1,7 @@
 # coding: utf-8
 
-INPUT_DIR = 'babbling_original_files_yml/'
-OUTPUT_DIR = 'babbling/'
+INPUT_DIR = './babbling_original_files_yml/'
+OUTPUT_DIR = './babbling/'
 
 # INPUT_REWARD_FILE = 'dataset_color.yml' # #"movable_object_is_pushed " is equiv to recorded_button1_is_pressed.txt right now in 3D simulated learning representations
 # INPUT_JOINT_POSITION_FILE = 'controller_feedback.yml'

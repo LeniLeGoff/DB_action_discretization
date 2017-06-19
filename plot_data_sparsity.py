@@ -204,3 +204,5 @@ print "Final data contains ", len(records), ' datapoints and ', len(records), ' 
 # Plot all actions (position) data
 print "PLOTTING ALL ACTUAL FILES WITHIN THE DIRECTORIES... Nr of records: ",len(data_iteration_folders), " in ",DATA_FOLDER
 plot_states_and_rewards(records, records_rewards)
+
+
